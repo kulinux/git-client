@@ -1,8 +1,8 @@
 package git.client
 
-class GitInit {
+class GitInit constructor(private val file: GitFile) {
     fun initialize() {
-        TODO("Not yet implemented")
+        file.mkdir(".git")
     }
 
 }

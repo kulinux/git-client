@@ -9,8 +9,8 @@ import io.mockk.verify
 
 class GitInitShould: StringSpec( {
     "Create .git directory" {
-        val file = mockk<GitFile>()
-        val gitInit = GitInit()
+        val file = mockk<GitFile>(relaxed = true)
+        val gitInit = GitInit(file)
         gitInit.initialize()
         verify { file.mkdir(".git") }
     }

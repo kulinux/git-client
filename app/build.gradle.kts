@@ -18,12 +18,6 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation("io.kotest:kotest-assertions-core:5.7.2")
-    testImplementation("io.kotest:kotest-runner-junit5:5.7.2")
-    testImplementation("io.mockk:mockk:1.13.7")
-}
-
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
@@ -43,4 +37,27 @@ tasks.named<Test>("test") {
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+}
+
+
+sourceSets {
+    create("acceptance") {
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+}
+val acceptanceImplementation by configurations.getting {
+    extendsFrom(configurations.implementation.get())
+}
+val acceptanceRuntimeOnly by configurations.getting
+
+configurations["acceptanceRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
+
+dependencies {
+    testImplementation("io.kotest:kotest-assertions-core:5.7.2")
+    testImplementation("io.kotest:kotest-runner-junit5:5.7.2")
+    testImplementation("io.mockk:mockk:1.13.7")
+
+    acceptanceImplementation("io.kotest:kotest-assertions-core:5.7.2")
+    acceptanceImplementation("io.kotest:kotest-runner-junit5:5.7.2")
 }
