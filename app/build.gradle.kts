@@ -56,6 +56,7 @@ configurations["acceptanceRuntimeOnly"].extendsFrom(configurations.runtimeOnly.g
 dependencies {
     testImplementation("io.kotest:kotest-assertions-core:5.7.2")
     testImplementation("io.kotest:kotest-runner-junit5:5.7.2")
+    testImplementation("io.kotest:kotest-framework-datatest:5.7.2")
     testImplementation("io.mockk:mockk:1.13.7")
 
     acceptanceImplementation("io.kotest:kotest-assertions-core:5.7.2")
