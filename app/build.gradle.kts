@@ -27,7 +27,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass.set("git.client.AppKt")
+    mainClass.set("git.client.Main")
 }
 
 tasks.named<Test>("test") {
