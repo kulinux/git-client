@@ -12,36 +12,24 @@ class MainShould : StringSpec({
     beforeEach {
         git = mockk(relaxed = true)
         mockkObject(MainValidatorArguments)
+        mockkObject(Git)
         every { MainValidatorArguments.validate(any()) } returns Unit
+        every { Git.apply(any()) } returns git
     }
 
     afterEach {
         unmockkObject(MainValidatorArguments)
+        unmockkObject(Git)
     }
 
     "call catFile with the hash" {
-        Main.main(catFileArgs, git)
+        Main.main(catFileArgs)
         verify { git.catFile(hash) }
     }
 
     "call validator" {
-        Main.main(catFileArgs, git)
+        Main.main(catFileArgs)
         verify { MainValidatorArguments.validate(catFileArgs) }
     }
 
-    /*
-    "call raise an error on unknown command" {
-        val exception = shouldThrow<RuntimeException> {
-            Main.main(arrayOf("unknown command"), git)
-        }
-        exception.message shouldBe "Unknown command"
-    }
-
-    "call raise an error on no command" {
-        val exception = shouldThrow<RuntimeException> {
-            Main.main(emptyArray(), git)
-        }
-        exception.message shouldBe "Command not found"
-    }
-     */
 })

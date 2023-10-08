@@ -6,12 +6,10 @@ import java.lang.RuntimeException
 class Main {
     companion object {
         @JvmStatic
-        fun main(args: Array<String>, git: Git = Git()) {
+        fun main(args: Array<String>) {
             validate(args)
+            val git = Git.apply(".")
             git.catFile(args[2])
-        }
-
-        private fun validateArgs(args: Array<String>) {
         }
     }
 }
