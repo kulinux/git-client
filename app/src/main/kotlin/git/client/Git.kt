@@ -2,13 +2,16 @@ package git.client
 
 import java.nio.file.Paths
 
-class Git internal constructor(private val gitInit: GitInit = defaultGit()) {
+class Git internal constructor(
+    private val gitInit: GitInit = defaultGitInit(),
+    private val gitCat: GitCat = defaultGitCat()
+) {
     fun init() {
         gitInit.initialize()
     }
 
     fun catFile(hash: String) {
-        TODO("Not yet implemented")
+        gitCat.catFile(hash)
     }
 
     companion object {
@@ -17,4 +20,6 @@ class Git internal constructor(private val gitInit: GitInit = defaultGit()) {
 
 }
 
-private fun defaultGit() = GitInit(GitFile(Paths.get("").toAbsolutePath().toString()))
+
+private fun defaultGitInit() = GitInit(GitFile(Paths.get("").toAbsolutePath().toString()))
+private fun defaultGitCat(): GitCat = GitCat(GitFile(Paths.get("").toAbsolutePath().toString()))
