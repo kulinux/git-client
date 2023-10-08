@@ -15,7 +15,7 @@ fun String.execute(basePath: String = BasePath): String {
     val process = Runtime.getRuntime().exec(this, null, basePath.asFile())
     val status = process.waitFor()
     if(status != 0) {
-        throw RuntimeException("Fail with $status: ${process.errorReader().readText()}")
+        throw RuntimeException("Fail $this with $status: ${process.errorReader().readText()}")
     }
     return process.inputReader().readText()
 }
@@ -25,11 +25,11 @@ class GitSpec : FeatureSpec({
 
     beforeTest {
         BasePath.asFile().deleteRecursively()
+        val git = Git.apply(BasePath)
+        git.init()
     }
 
     feature("git init should give a ") {
-        val git = Git.apply(BasePath)
-        git.init()
         scenario("correct .git directory") {
             "${BasePath}/.git".asFile().shouldBeADirectory()
             "${BasePath}/.git/objects".asFile().shouldBeADirectory()
@@ -43,9 +43,7 @@ class GitSpec : FeatureSpec({
         scenario("read blob") {
             val content = "test_content"
             val addFileCommand = "git hash-object -w content.txt"
-            "mkdir $BasePath".execute(".")
 
-            "git init".execute()
             File("$BasePath/content.txt").writeText(content)
             val hash = addFileCommand.execute()
             val command = "../../your_git.sh cat-file -p $hash"

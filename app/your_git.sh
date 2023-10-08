@@ -1,2 +1,3 @@
 echo "Works!! $*"
-java git.client.Main $*
+BASEDIR=$(dirname "$0")
+java -jar "${BASEDIR}"/build/libs/app-standalone.jar $*
