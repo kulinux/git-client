@@ -9,7 +9,8 @@ class Main {
         fun main(args: Array<String>) {
             validate(args)
             val git = Git.apply(".")
-            git.catFile(args[2])
+            val output = git.catFile(args[2])
+            print(output)
         }
     }
 }

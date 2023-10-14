@@ -10,9 +10,8 @@ class Git internal constructor(
         gitInit.initialize()
     }
 
-    fun catFile(hash: String) {
+    fun catFile(hash: String): String =
         gitCat.catFile(hash)
-    }
 
     companion object {
         fun apply(basePath: String) = Git(GitInit(GitFile(basePath)))
