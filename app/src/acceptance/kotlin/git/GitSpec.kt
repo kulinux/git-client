@@ -51,6 +51,18 @@ class GitSpec : FeatureSpec({
 
             command.execute().shouldBe(content)
         }
+
+        scenario("create blob") {
+            val content = "test_content"
+            File("$BasePath/content.txt").writeText(content)
+            val command = "../../your_git.sh hash-object --path content.txt"
+
+            val hash = command.execute()
+
+            val readFileCommand = "git cat-file -p $hash"
+
+            readFileCommand.execute().shouldBe(content)
+        }
     }
 
 })

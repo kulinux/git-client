@@ -2,10 +2,10 @@ package git.client
 
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.core.spec.style.StringSpec
+import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 
-class MainValidatorArgumentsShould : StringSpec({
+class MainValidatorArgumentsShould : FreeSpec({
     "call raise an error on unknown command" {
         val exception = shouldThrow<RuntimeException> {
             MainValidatorArguments.validate(arrayOf("unknown command"))
@@ -20,24 +20,50 @@ class MainValidatorArgumentsShould : StringSpec({
         exception.message shouldBe "Command not found"
     }
 
+    "cat-file" - {
 
-    "cat-file should raise an exception on wrong argument" {
-        val exception = shouldThrow<RuntimeException> {
-            MainValidatorArguments.validate(arrayOf("cat-file", "-u", "mono"))
+        "should raise an exception on wrong argument" {
+            val exception = shouldThrow<RuntimeException> {
+                MainValidatorArguments.validate(arrayOf("cat-file", "-u", "mono"))
+            }
+            exception.message shouldBe "Wrong arguments for cat-file"
         }
-        exception.message shouldBe "Wrong arguments for cat-file"
+
+        "should raise an exception on incorrect number of argument" {
+            val exception = shouldThrow<RuntimeException> {
+                MainValidatorArguments.validate(arrayOf("cat-file", "-p"))
+            }
+            exception.message shouldBe "Wrong arguments for cat-file"
+        }
+
+        "should not throw error on correct arguments" {
+            shouldNotThrowAny {
+                MainValidatorArguments.validate(arrayOf("cat-file", "-p", "mono"))
+            }
+        }
     }
 
-    "cat-file should raise an exception on incorrect number of argument" {
-        val exception = shouldThrow<RuntimeException> {
-            MainValidatorArguments.validate(arrayOf("cat-file", "-p"))
+    "hash-object" - {
+        "should raise an exception on wrong argument" {
+            val exception = shouldThrow<RuntimeException> {
+                MainValidatorArguments.validate(arrayOf("hash-object", "-u", "mono"))
+            }
+            exception.message shouldBe "Wrong arguments for hash-object"
         }
-        exception.message shouldBe "Wrong arguments for cat-file"
-    }
 
-    "cat-file should not throw error on correct arguments" {
-        shouldNotThrowAny {
-            MainValidatorArguments.validate(arrayOf("cat-file", "-p", "mono"))
+        "should raise an exception on incorrect number of argument" {
+            val exception = shouldThrow<RuntimeException> {
+                MainValidatorArguments.validate(arrayOf("hash-object", "-p"))
+            }
+            exception.message shouldBe "Wrong arguments for hash-object"
         }
+
+        "should not throw error on correct arguments" {
+            shouldNotThrowAny {
+                MainValidatorArguments.validate(arrayOf("hash-object", "--path", "mono"))
+            }
+        }
+
+
     }
 })
