@@ -6,7 +6,9 @@ import io.mockk.*
 class MainShould : StringSpec({
 
     val hash = "object hash"
+    val file = "content.txt"
     val catFileArgs = arrayOf("cat-file", "-p", hash)
+    val hashObjectArgs = arrayOf("hash-object", "--path", file)
     lateinit var git: Git
 
     beforeEach {
@@ -22,9 +24,14 @@ class MainShould : StringSpec({
         unmockkObject(Git)
     }
 
-    "call catFile with the hash" {
+    "call catFile" {
         Main.main(catFileArgs)
         verify { git.catFile(hash) }
+    }
+
+    "call hashFile" {
+        Main.main(hashObjectArgs)
+        verify { git.hashObject(file) }
     }
 
     "call validator" {

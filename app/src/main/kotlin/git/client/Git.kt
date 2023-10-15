@@ -13,6 +13,10 @@ class Git internal constructor(
     fun catFile(hash: String): String =
         gitCat.catFile(hash)
 
+    fun hashObject(file: String) {
+        TODO("Not yet implemented")
+    }
+
     companion object {
         fun apply(basePath: String) = Git(GitInit(GitFile(basePath)))
     }
