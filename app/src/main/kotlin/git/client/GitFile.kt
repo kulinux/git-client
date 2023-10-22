@@ -19,6 +19,10 @@ class GitFile(private val basePath: String) {
         File("${basePath}/${path}").writeText(content)
     }
 
+    fun writeFile(path: String, content: ByteArray) {
+        File("${basePath}/${path}").writeBytes(content)
+    }
+
     fun readFile(path: String): ByteArray =
         File("${basePath}/${path}").readBytes()
 
@@ -40,6 +44,10 @@ class GitFile(private val basePath: String) {
             inflater.end()
             outputStream.toString("UTF-8")
         }
+    }
+
+    fun compress(fileContent: String): ByteArray {
+        TODO("Not yet implemented")
     }
 
 }
